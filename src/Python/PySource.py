@@ -1,4 +1,3 @@
-
 import sympy
 
 from devito import Dimension
@@ -152,4 +151,4 @@ class GaborSource(WaveletSource):
         agauss = 0.5 * f0
         tcut = 1.5 / agauss
         s = (t-tcut) * agauss
-        return np.exp(-2*s**2) * np.cos(2 * np.pi * s)
+return np.exp(-2*s**2) * np.cos(2 * np.pi * s)
