@@ -139,7 +139,6 @@ figure(); imshow(sqrt.(1./adjoint(reshape(x, model0.n)))); title("FWI")
 figure(); plot(fvals); title("Function value")
 ```
 
-#### Figure: {#f1}
 ![](docs/fwi.png)
 
 
@@ -210,9 +209,7 @@ for j=1:niter
 end
 ```
 
-#### Figure: {#f1}
 ![](docs/lsrtm.png)
-
 
 ## Machine Learning
 
