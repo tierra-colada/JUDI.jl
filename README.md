@@ -4,7 +4,7 @@
 
 ## Overview
 
-JUDI is a framework for large-scale seismic modeling and inversion and designed to enable rapid translations of algorithms to fast and efficient code that scales to industry-size 3D problems. The focus of the package lies on seismic modeling as well as PDE-constrained optimization such as full-waveform inversion (FWI) and imaging (LS-RTM). Wave equations in JUDI are solved with [Devito](https://github.com/opesci/devito), a Python domain-specific language for automated finite-difference (FD) computations.
+JUDI is a framework for large-scale seismic modeling and inversion and designed to enable rapid translations of algorithms to fast and efficient code that scales to industry-size 3D problems. The focus of the package lies on seismic modeling as well as PDE-constrained optimization such as full-waveform inversion (FWI) and imaging (LS-RTM). Wave equations in JUDI are solved with [Devito](https://github.com/opesci/devito), a Python domain-specific language for automated finite-difference (FD) computations. JUDI's modeling operators can also be used as layers in (convolutional) neural networks to implemented physics-augemented deep learing algorithms. For this, check out JUDI's deep learning extension [JUDI4Flux](https://github.com/slimgroup/JUDI4Flux.jl).
 
 ## Installation and prerequisites
 
@@ -213,9 +213,38 @@ end
 #### Figure: {#f1}
 ![](docs/lsrtm.png){width=80%}
 
+
+## Machine Learning
+
+The JUDI4Flux interface, allows integration JUDI operators for seismic modeling into convolutional neural networks for deep learning. For example, the following code snippet shows how to create a shallow CNN consisting of two convolutional layers with a nonlinear forward modeling layer in-between them. JUDI4Flux enables backpropagation through Flux' automatic differentiation tools, but calls the corresponding adjoint JUDI operators under the hood. For more details, please check out the [JUDI4Flux Github](https://github.com/slimgroup/JUDI4Flux.jl) page.
+
+```julia
+# Nonlinear JUDI modeling operator
+model = Model(n, d, o, m)
+F = judiModeling(info, model, rec_geometry, src_geometry)
+
+# Network layers
+ℱ = ForwardModel(F, q)
+conv1 = Conv((3, 3), 1=>1, pad=1, stride=1)
+conv2 = Conv((3, 3), 1=>1, pad=1, stride=1)
+
+# Network and loss
+predict(x) = conv2(ℱ(conv1(x)))
+loss(x, y) = Flux.mse(predict(x), y)
+
+# Compute gradient w/ Flux
+gs = Tracker.gradient(() -> loss(x, y), params(m))
+gs[m]   # evalute gradient w.r.t. m
+```
+
+JUDI4Flux allows implementing physics-augmented neural networks for seismic inversion, such as loop-unrolled seismic imaging algorithms. For example, the following results are a conventional RTM image, an LS-RTM image and a loop-unrolled LS-RTM image for a single simultaneous shot record.
+
+![](docs/loop_unrolling.png){width=70%}
+
+
 ## Authors
 
-This package was written by [Philipp Witte](https://www.slim.eos.ubc.ca/philip) and [Mathias Louboutin](https://www.slim.eos.ubc.ca/content/mathias-louboutin) from the Seismic Laboratory for Imaging and Modeling (SLIM) at the Georgia Institute of Technology.
+This package was written by [Philipp Witte](https://www.slim.eos.ubc.ca/philipp) and [Mathias Louboutin](https://www.slim.eos.ubc.ca/content/mathias-louboutin) from the Seismic Laboratory for Imaging and Modeling (SLIM) at the Georgia Institute of Technology.
 
 If you use our software for your research, please cite us using the following references:
 
