@@ -140,7 +140,7 @@ figure(); plot(fvals); title("Function value")
 ```
 
 #### Figure: {#f1}
-![](docs/fwi.png){width=70%}
+![](docs/fwi.png)
 
 
 ## Least squares reverse-time migration
@@ -211,7 +211,7 @@ end
 ```
 
 #### Figure: {#f1}
-![](docs/lsrtm.png){width=80%}
+![](docs/lsrtm.png)
 
 
 ## Machine Learning
@@ -239,7 +239,7 @@ gs[m]   # evalute gradient w.r.t. m
 
 JUDI4Flux allows implementing physics-augmented neural networks for seismic inversion, such as loop-unrolled seismic imaging algorithms. For example, the following results are a conventional RTM image, an LS-RTM image and a loop-unrolled LS-RTM image for a single simultaneous shot record.
 
-![](docs/loop_unrolling.png){width=70%}
+![](docs/loop_unrolling.png)
 
 
 ## Authors
