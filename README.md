@@ -236,7 +236,7 @@ gs[m]   # evalute gradient w.r.t. m
 
 JUDI4Flux allows implementing physics-augmented neural networks for seismic inversion, such as loop-unrolled seismic imaging algorithms. For example, the following results are a conventional RTM image, an LS-RTM image and a loop-unrolled LS-RTM image for a single simultaneous shot record.
 
-![](docs/loop_unrolling.png)
+![](docs/figure1.png)
 
 
 ## Authors
