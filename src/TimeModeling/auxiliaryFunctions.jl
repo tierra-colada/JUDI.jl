@@ -417,6 +417,8 @@ function process_physical_parameter(param, dims)
 end
 
 process_input_data(input::judiVector, geometry::Geometry, info::Info) = input.data
+process_input_data(input::judiWeights, geometry::Geometry, info::Info) = input.weights
+
 
 function process_input_data(input::Array{Float32, 1}, geometry::Geometry, info::Info)
     # Input data is pure Julia array: assume fixed no.
@@ -432,6 +434,25 @@ function process_input_data(input::Array{Float32, 1}, geometry::Geometry, info::
     return dataCell
 end
 
+function process_input_data(input::Array{Float32, 1}, model::Model, info::Info)
+    # Input data is pure Julia array: assume fixed no.
+    # of receivers and reshape into data cube nt x nrec x nsrc
+    nsrc = info.nsrc
+    if length(model.n) == 2
+        data = reshape(input, model.n[1], model.n[2], nsrc)
+    else
+        data = reshape(input, model.n[1], model.n[2], model.n[3], nsrc)
+    end
+    dataCell = Array{Array}(undef, nsrc)
+    for j=1:nsrc
+        if length(model.n) == 2
+            dataCell[j] = data[:,:,j]
+        else
+            dataCell[j] = data[:,:,:,j]
+        end
+    end
+    return dataCell
+end
 
 function reshape(x::Array{Float32, 1}, geometry::Geometry)
     nt = geometry.nt[1]

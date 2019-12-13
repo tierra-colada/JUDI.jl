@@ -32,8 +32,11 @@ def acoustic_laplacian(v, rho):
             Lap = 1 / rho * v.laplace
     return Lap, rho
 
-def forward_modeling(model, src_coords, wavelet, rec_coords, save=False, space_order=8, nb=40, free_surface=False, op_return=False, u_return=False, dt=None, tsub_factor=1, return_devito_obj=False):
+def forward_modeling(model, src_coords, wavelet, rec_coords, save=False, space_order=8, nb=40, weight=None, free_surface=False, op_return=False, u_return=False, dt=None, tsub_factor=1, return_devito_obj=False):
     clear_cache()
+
+    if weight is not None:
+        wavelet = np.asarray(wavelet)[:,0]
 
     # If wavelet is file, read it
     if isinstance(wavelet, str):
