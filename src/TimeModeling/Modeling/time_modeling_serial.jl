@@ -1,4 +1,3 @@
-
 export time_modeling
 
 # Setup time-domain linear or nonlinear foward and adjoint modeling and interface to devito

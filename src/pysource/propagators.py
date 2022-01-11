@@ -1,7 +1,7 @@
 from kernels import wave_kernel
 from geom_utils import src_rec
 from wave_utils import (wf_as_src, wavefield, otf_dft, extended_src_weights,
-                        extented_src, wavefield_subsampled, weighted_norm)
+                        extented_src, wavefield_subsampled, weighted_norm, illumination)
 from sensitivity import grad_expr, lin_src
 from utils import weight_fun, opt_op
 
